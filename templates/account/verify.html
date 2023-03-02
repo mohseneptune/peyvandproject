@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ template_title }}{% endblock title %}
+
+{% block content %}
+<div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+  <div class="card bg-white shadow p-3" style="width: 30rem;">
+
+    <a class="text-decoration-none text-end" href="{% url 'main:home' %}">بازگشت <i class="bi bi-house-fill"></i></a>
+
+    <img src="{% static 'img/logo.png' %}" class="card-img-top mx-auto" style="width: 100px;">
+
+    <div class="card-body">
+
+      <form action="" method="post">
+        {% csrf_token %}
+
+        <button type="submit" class="btn btn-primary w-100">ثبت نام</button>
+      </form>
+
+    </div>
+  </div>
+</div>  
+{% endblock content %}

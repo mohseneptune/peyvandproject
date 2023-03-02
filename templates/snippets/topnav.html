@@ -1,0 +1,66 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+
+    <a class="navbar-brand" href="{% url 'main:home' %}">
+      <img src="{% static 'img/logo.png' %}" alt="" width="30" , height="30">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+      aria-controls="offcanvasDarkNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+      aria-labelledby="offcanvasDarkNavbarLabel">
+
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">
+          <a href="#"><img src="{% static 'img/logo.png' %}" alt="" width="30" , height="30"></a>
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+
+      <div class="offcanvas-body">
+
+        <ul class="navbar-nav justify-content-start flex-grow-1">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'main:home' %}">صفحه اصلی</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'main:contact' %}">تماس با ما</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'main:about' %}">در باره ما</a>
+          </li>
+        </ul>
+
+        <!-- user is authenticated -->
+        <!-- <ul class="navbar-nav justify-content-end flex-grow-1">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{% url 'main:home' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              شماره تلفن
+              <img src="{% static 'img/logo.png' %}" alt="" width="30">
+            </a>
+            <ul class="dropdown-menu py-0">
+              <li><a class="dropdown-item" href="{% url 'account:profile' %}">حساب کاربری</a></li>
+              <li><a class="dropdown-item" href="{% url 'account:logout' %}">خروج</a></li>
+            </ul>
+          </li>
+        </ul> -->
+
+        <!-- user is not authenticated -->
+        <ul class="navbar-nav justify-content-end flex-grow-1">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'account:register' %}">ثبت نام</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'account:login' %}">ورود</a>
+          </li>
+        </ul>
+
+
+      </div>
+    </div>
+  </div>
+</nav>

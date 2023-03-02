@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Dirooz';
+  src: url(../assets/font/Dirooz-FD.woff);
+}
+
+* {
+  font-family: 'Dirooz';
+}
+
+main {
+  min-height: 100vh;
+}

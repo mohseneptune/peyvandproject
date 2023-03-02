@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ template_title }}{% endblock title %}
+
+{% block header %}
+{% include "snippets/topnav.html" %}
+{% endblock header %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    
+    <div class="col-12 col-lg-3">
+      
+      <div class="border-bottom mb-2 pb-2">
+        <a href="{% url 'account:profile' %}" class="text-decoration-none text-dark">حساب کاربری</a>
+      </div>
+
+      <div class="border-bottom mb-2 pb-2">
+        <a href="{% url 'account:profile_change' %}" class="text-decoration-none text-dark">ویرایش حساب کاربری</a>
+      </div>
+
+      <div class="border-bottom mb-2 pb-2">
+        <a href="{% url 'account:logout' %}" class="text-decoration-none text-dark">خروج</a>
+      </div>
+
+    </div>
+    
+    <div class="col-12 col-lg-9" style="min-height: 200px;">
+      {% block profile_content %}{% endblock profile_content %}
+    </div>
+
+  </div>
+</div>
+
+{% endblock content %}
