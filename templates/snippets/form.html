@@ -1,0 +1,19 @@
+{% for field in form %}
+<div class="mb-3">
+  
+  <!-- label and input -->
+  <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }} :</label>
+  {{ field }}
+  
+  <!-- help text -->
+  {% if field.help_text %}
+  <div class="form-text">{{ field.help_text }}</div>
+  {% endif %}
+  
+  <!-- errors -->
+  {% for error in field.errors %}
+  <div class="text-danger" style="font-size: .8rem; font-weight: bold;">{{ error }}</div>
+  {% endfor %}
+  
+</div>
+{% endfor %}

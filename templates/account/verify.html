@@ -5,21 +5,32 @@
 
 {% block content %}
 <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+
   <div class="card bg-white shadow p-3" style="width: 30rem;">
 
-    <a class="text-decoration-none text-end" href="{% url 'main:home' %}">بازگشت <i class="bi bi-house-fill"></i></a>
+    <a class="text-decoration-none text-end" href="{% url 'account:register' %}"><i
+        class="bi bi-arrow-return-left"></i></a>
 
     <img src="{% static 'img/logo.png' %}" class="card-img-top mx-auto" style="width: 100px;">
 
     <div class="card-body">
 
+      <h6 class="card-subtitle mb-2 text-muted">
+        کد تایید باری شماره {{ phone }} فرستاده شد.
+      </h6>
+
       <form action="" method="post">
         {% csrf_token %}
+        {% include "snippets/form.html" with form=form %}
 
-        <button type="submit" class="btn btn-primary w-100">ثبت نام</button>
+        {% if form_error %}
+        <div class="text-danger mb-3" style="font-size: .8rem; font-weight: bold;">{{ form_error }}</div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary w-100">تکمیل ثبت نام</button>
       </form>
 
     </div>
   </div>
-</div>  
+</div>
 {% endblock content %}

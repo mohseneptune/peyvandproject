@@ -34,22 +34,29 @@
             <a class="nav-link" href="{% url 'main:about' %}">در باره ما</a>
           </li>
         </ul>
-
-        <!-- user is authenticated -->
-        <!-- <ul class="navbar-nav justify-content-end flex-grow-1">
+        
+        {% if user.is_authenticated %}
+        <ul class="navbar-nav justify-content-end flex-grow-1">
           <li class="nav-item dropdown">
+            
             <a class="nav-link dropdown-toggle" href="{% url 'main:home' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              شماره تلفن
-              <img src="{% static 'img/logo.png' %}" alt="" width="30">
+
+              {% if user.gender == '2' %}
+              <img src="{% static 'img/male.png' %}" class="rounded-circle border border-white" alt="" width="30">
+              {% else %}
+              <img src="{% static 'img/female.png' %}" class="rounded-circle border border-white" alt="" width="30">
+              {% endif %}
+              
             </a>
+            
             <ul class="dropdown-menu py-0">
               <li><a class="dropdown-item" href="{% url 'account:profile' %}">حساب کاربری</a></li>
               <li><a class="dropdown-item" href="{% url 'account:logout' %}">خروج</a></li>
             </ul>
+          
           </li>
-        </ul> -->
-
-        <!-- user is not authenticated -->
+        </ul>
+        {% else %}
         <ul class="navbar-nav justify-content-end flex-grow-1">
           <li class="nav-item">
             <a class="nav-link" href="{% url 'account:register' %}">ثبت نام</a>
@@ -58,8 +65,8 @@
             <a class="nav-link" href="{% url 'account:login' %}">ورود</a>
           </li>
         </ul>
-
-
+        {% endif %}
+      
       </div>
     </div>
   </div>

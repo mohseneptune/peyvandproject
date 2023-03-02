@@ -11,15 +11,15 @@
 
     <img src="{% static 'img/logo.png' %}" class="card-img-top mx-auto" style="width: 100px;">
 
-    <div class="card-body">
+    <div class="card-body p-3">
 
       <form action="" method="post">
         {% csrf_token %}
-
+        {% include "snippets/form.html" with form=form %}
         <button type="submit" class="btn btn-primary w-100">ثبت نام</button>
       </form>
-
     </div>
+
   </div>
 </div>
 {% endblock content %}

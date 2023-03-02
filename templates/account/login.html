@@ -15,8 +15,8 @@
 
       <form action="" method="post">
         {% csrf_token %}
-
-        <button type="submit" class="btn btn-primary w-100">ثبت نام</button>
+        {% include "snippets/form.html" with form=form %}
+        <button type="submit" class="btn btn-primary w-100">ورود</button>
       </form>
 
     </div>
