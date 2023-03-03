@@ -118,3 +118,17 @@ class EntezaaraatFrom(forms.ModelForm):
                 visible.field.widget.attrs['class'] = 'form-select'
             else: visible.field.widget.attrs['class'] = 'form-control'
             visible.field.widget.attrs['placeholder'] = visible.label
+
+
+
+class PartnerSearchForm(forms.Form):
+
+    qad = forms.BooleanField(label='قد', required=False)
+    vazn = forms.BooleanField(label='وزن', required=False)
+    tahsil = forms.BooleanField(label='تحصیلات', required=False)
+    tavallod = forms.BooleanField(label='سال تولد', required=False)
+    zibaayi = forms.BooleanField(label='زیبایی', required=False)
+    qowmiat = forms.BooleanField(label='قومیت', required=False)
+    shoql = forms.BooleanField(label='شغل', required=False)
+    shahre_sokounat = forms.BooleanField(label='شهر محل سکونت', required=False)
+    ezdevaaj = forms.BooleanField(label='سابقه ازدواج', required=False)

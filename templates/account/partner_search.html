@@ -1,0 +1,20 @@
+{% extends "dashboard.html" %}
+
+{% block title %}{{ template_title }}{% endblock title %}
+
+{% block profile_content %}
+
+{% if not partners %}
+<h5>نتیجه ای پیدا نشد</h5>
+
+{% else %}
+<ul class="list-group">
+  {% for partner in partners %}
+  <li class="list-group-item">
+    <a href="{% url 'account:user_detail' pk=partner.pk %}">{{ partner.user.first_name }}  {{ partner.user.last_name }}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock profile_content %}

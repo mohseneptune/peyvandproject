@@ -8,33 +8,30 @@
 <h4>حساب کاربری</h4>
 <table class="table table-striped table-responsive">
   <tr>
-    <th>{% get_verbose user "phone" %}</th>
-    <td>{{ user.phone }}</td>
+    <th>{% get_verbose detail "phone" %}</th>
+    <td>{{ detail.phone }}</td>
   </tr>
   <tr>
-    <th>{% get_verbose user "first_name" %}</th>
-    <td>{{ user.first_name }}</td>
+    <th>{% get_verbose detail "first_name" %}</th>
+    <td>{{ detail.first_name }}</td>
   </tr>
   <tr>
-    <th>{% get_verbose user "last_name" %}</th>
-    <td>{{ user.last_name }}</td>
+    <th>{% get_verbose detail "last_name" %}</th>
+    <td>{{ detail.last_name }}</td>
   </tr>
   <tr>
-    <th>{% get_verbose user "gender" %}</th>
-    <td>{{ user.get_gender_display }}</td>
+    <th>{% get_verbose detail "gender" %}</th>
+    <td>{{ detail.get_gender_display }}</td>
   </tr>
   <tr>
-    <th>{% get_verbose user "register_for" %}</th>
-    <td>{{ user.get_register_for_display }}</td>
+    <th>{% get_verbose detail "register_for" %}</th>
+    <td>{{ detail.get_register_for_display }}</td>
   </tr>
   <tr>
-    <th>{% get_verbose user "joined_date" %}</th>
-    <td>{{ user.joined_date|date:"H:i -- Y-m-d" }}</td>
+    <th>{% get_verbose detail "joined_date" %}</th>
+    <td>{{ detail.joined_date|date:"H:i -- Y-m-d" }}</td>
   </tr>
 </table>
-
-
-
 
 <h4 class="mt-5">خصوصیات کاربر</h4>
 <table class="table table-striped table-responsive">

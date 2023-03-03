@@ -41,7 +41,7 @@
             
             <a class="nav-link dropdown-toggle" href="{% url 'main:home' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
-              {% if user.gender == '2' %}
+              {% if user.gender == '1' %}
               <img src="{% static 'img/male.png' %}" class="rounded-circle border border-white" alt="" width="30">
               {% else %}
               <img src="{% static 'img/female.png' %}" class="rounded-circle border border-white" alt="" width="30">

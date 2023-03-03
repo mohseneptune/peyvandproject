@@ -116,7 +116,7 @@ class Khosousiaat(models.Model):
     
 
     def __str__(self):
-        return self.user.username
+        return self.user.phone
 
     class Meta:
         db_table = "khosousiaat"
@@ -169,7 +169,7 @@ class Entezaaraat(models.Model):
     tozihaat = models.TextField("دیگر توضیحات", null=True, blank=True)
     
     def __str__(self):
-        return self.user.username
+        return self.user.phone
 
     def tavallod_range(self):
         return [str(tavallod) for tavallod in range(int(self.tavallod_from), int(self.tavallod_to))]

@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, login, get_user_model
-from account.forms import RegisterForm, OTPForm, LoginForm, PhoneChangeForm, ProfileChangeForm, KhosousiaatFrom, EntezaaraatFrom
+from account.forms import RegisterForm, OTPForm, LoginForm, PhoneChangeForm, ProfileChangeForm, KhosousiaatFrom, EntezaaraatFrom, PartnerSearchForm
 from random import randint
 from core.otp import send_opt
 from django.contrib import messages
 from account.models import Khosousiaat, Entezaaraat
+from django.forms.models import model_to_dict
+
 
 User = get_user_model()
 
@@ -23,6 +25,7 @@ def register_view(request):
             request.session["register_form_data"] = register_form_data
             request.session["otp"] = otp
             send_opt(register_form_data["phone"], otp)
+            
             return redirect("account:register_verify")
 
     context = {
@@ -43,6 +46,7 @@ def register_verify_view(request):
         return redirect("account:register")
 
     phone = request.session["register_form_data"]["phone"]
+    otp = request.session.get("otp")
 
     if request.method == "POST":
         form = form(request.POST)
@@ -66,6 +70,7 @@ def register_verify_view(request):
         "form": form,
         "form_error": form_error,
         "phone": phone,
+        "otp": otp
     }
 
     return render(request, template_name, context)
@@ -104,6 +109,7 @@ def login_verify_view(request):
         return redirect("account:login")
 
     phone = request.session.get("phone")
+    otp = request.session.get("otp")
 
     if request.method == "POST":
         form = form(request.POST)
@@ -127,6 +133,7 @@ def login_verify_view(request):
         "form": form,
         "form_error": form_error,
         "phone": phone,
+        "otp": otp
     }
     return render(request, template_name, context)
 
@@ -140,7 +147,17 @@ def profile_view(request):
     template_name = "account/profile.html"
     template_title = "حساب کاربری"
 
-    context = {"template_title": template_title}
+    try:
+        khosousiaat = request.user.khosousiaat
+    except:
+        khosousiaat = Khosousiaat.objects.create(user=request.user)
+
+    try:
+        entezaaraat = request.user.entezaaraat
+    except:
+        entezaaraat = Entezaaraat.objects.create(user=request.user)
+
+    context = {"template_title": template_title, "khosousiaat": khosousiaat, "entezaaraat": entezaaraat}
     return render(request, template_name, context)
 
 
@@ -262,4 +279,84 @@ def entezaaraat_change_view(request):
         form = EntezaaraatFrom(instance=entezaaraat)
     
     context = {"template_title": template_title, "form": form}
+    return render(request, template_name, context)
+
+
+def partner_search_view(request):
+    template_name = "account/partner_search.html"
+    template_title = "جستجوی همسان"
+    user = request.user
+    entezaaraat = Entezaaraat.objects.get(user=user)
+
+    if user.gender == "1":
+        users = User.objects.exclude(pk=request.user.pk).filter(gender="2")
+    else:
+        users = User.objects.exclude(pk=request.user.pk).filter(gender="1")
+
+    partners = Khosousiaat.objects.filter(user__in=users)
+
+    # partners = partners.filter(tavallod__in=entezaaraat.tavallod_range())
+    # partners = partners.filter(qad__in=entezaaraat.qad_range())
+    # partners = partners.filter(vazn__in=entezaaraat.vazn_range())    
+
+    # if entezaaraat.zibaayi != '0' and entezaaraat.zibaayi != None:
+    #     partners = partners.filter(zibaayi=entezaaraat.zibaayi)
+
+    # if entezaaraat.ostaane_tavallod != '0' and entezaaraat.ostaane_tavallod != None:
+    #     partners = partners.filter(ostaane_tavallod=entezaaraat.ostaane_tavallod)
+    
+    # if entezaaraat.ostaane_sokounat != '0' and entezaaraat.ostaane_sokounat != None:
+    #     partners = partners.filter(ostaane_sokounat=entezaaraat.ostaane_sokounat)
+
+    # if entezaaraat.shahre_sokounat != '0' and entezaaraat.shahre_sokounat != None:
+    #     partners = partners.filter(shahre_sokounat=entezaaraat.shahre_sokounat)
+
+    # if entezaaraat.ehsaasaat != '0' and entezaaraat.ehsaasaat != None:
+    #     partners = partners.filter(ehsaasaat=entezaaraat.ehsaasaat)
+
+    # if entezaaraat.ertebaataat != '0' and entezaaraat.ertebaataat != None:
+    #     partners = partners.filter(ertebaataat=entezaaraat.ertebaataat)
+
+    # if entezaaraat.jensi != '0' and entezaaraat.jensi != None:
+    #     partners = partners.filter(jensi=entezaaraat.jensi)
+
+    # if entezaaraat.salaamat != '0' and entezaaraat.salaamat != None:
+    #     partners = partners.filter(salaamat=entezaaraat.salaamat)
+
+    if entezaaraat.tahsil != '0' and entezaaraat.tahsil != None:
+        partners = partners.filter(tahsil=entezaaraat.tahsil)
+    
+    if entezaaraat.qowmiat != '0' and entezaaraat.qowmiat != None:
+        partners = partners.filter(qowmiat=entezaaraat.qowmiat)
+
+    if entezaaraat.shoql != '0' and entezaaraat.shoql != None:
+        partners = partners.filter(shoql=entezaaraat.shoql)
+
+    if entezaaraat.din != '0' and entezaaraat.din != None:
+        partners = partners.filter(din=entezaaraat.din)    
+
+    context = {
+        'template_title': template_title,
+        'partners': partners
+    }
+
+    return render(request, template_name, context)
+
+
+
+def user_detail_view(request, pk):
+    template_name = "account/user_detail.html"
+    template_title = "مشخصات کاربر"
+
+    detail = get_object_or_404(User, pk=pk)
+    khosousiaat = detail.khosousiaat
+    entezaaraat = detail.entezaaraat
+
+    context = {
+        'template_title': template_title,
+        'detail': detail,
+        'khosousiaat': khosousiaat,
+        'entezaaraat': entezaaraat,
+    }
+
     return render(request, template_name, context)
