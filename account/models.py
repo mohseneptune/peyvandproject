@@ -72,3 +72,117 @@ class User(AbstractBaseUser):
         managed = True
         verbose_name = "کاربر"
         verbose_name_plural = "کاربران"
+
+
+
+class Khosousiaat(models.Model):
+    user = models.OneToOneField(User, verbose_name="کاربر", on_delete=models.CASCADE)
+    
+    tavallod = models.CharField("سال تولد", max_length=4, choices=TAVALLOD_CHOICES, null=True, blank=True)
+    qad = models.CharField("قد", max_length=3, choices=QAD_CHOICES, null=True, blank=True)
+    vazn = models.CharField("وزن", max_length=3, choices=VAZN_CHOICES, null=True, blank=True)
+    tahsil = models.CharField("تحصیلات", max_length=1, choices=TAHSIL_CHOICES[1:], null=True, blank=True)
+    rang = models.CharField("رنگ پوست", max_length=1, choices=RANG_CHOICES[1:], null=True, blank=True)
+    zibaayi = models.CharField("میزان زیبایی", max_length=1, choices=ZIBAAYI_CHOICES[1:], null=True, blank=True)
+    qowmiat = models.CharField("قومیت", max_length=1, choices=QOWMIAT_CHOICES[1:], null=True, blank=True)
+    shoql = models.CharField("وضعیت اشتغال", max_length=1, choices=SHOQL_CHOICES[1:], null=True, blank=True)
+    ostaane_tavallod = models.CharField("استان محل تولد", max_length=2, choices=OSTAANHAA_CHOICES[1:], null=True, blank=True)
+    ostaane_sokounat = models.CharField("استان محل سکونت", max_length=2, choices=OSTAANHAA_CHOICES[1:], null=True, blank=True)
+    shahre_sokounat = models.CharField("شهر محل سکونت", max_length=150, null=True, blank=True)
+
+    ezdevaaj = models.CharField("سابقه ازدواج", max_length=1, choices=EZDEVAAJ_CHOICES[1:], null=True, blank=True)
+    kharide_khodro = models.CharField("توانایی خرید خودرو", max_length=1, choices=KHARIDE_KHODRO_CHOICES[1:], null=True, blank=True)
+    ehsaasaat = models.CharField("وضعیت احساسی", max_length=1, choices=EHSAASAAT_CHOICES[1:], null=True, blank=True)
+    ertebaataat = models.CharField("راتباطات اجتماعی", max_length=1, choices=ERTEBAATAAT_CHOICES[1:], null=True, blank=True)
+    jensi = models.CharField("امور جنسی", max_length=1, choices=JENSI_CHOICES[1:], null=True, blank=True)
+    khaanevaadegi = models.CharField("امور خانوادگی", max_length=1, choices=KHAANEVAADEGI_CHOICES[1:], null=True, blank=True)
+    salaamat = models.CharField("سلامت جسمی و روانی", max_length=1, choices=SALAAMAT_CHOICES[1:], null=True, blank=True)
+
+    din = models.CharField("دین یا مذهب", max_length=1, choices=DIN_CHOICES[1:], null=True, blank=True)
+    eteqaadaat = models.CharField("اعتقادات مذهبی", max_length=1, choices=ETEQAADAAT_CHOICES[1:], null=True, blank=True)
+    amal_be_ahkaam = models.CharField("میزان عمل به احکام دینی", max_length=1, choices=AMAL_BE_AHKAAM_CHOICES[1:], null=True, blank=True)
+    talabeh = models.BooleanField("طلبه", null=True, blank=True)
+    seyyed = models.BooleanField("سید", null=True, blank=True)
+    shekrat_dar_maraasemaat = models.CharField("شرکت در مراسم مذهبی و اجتماعی", max_length=1, choices=SHERKAT_DAR_MARAASEMAAT_CHOICES[1:], null=True, blank=True)
+    pushesh = models.CharField("پوشش و لباس", max_length=1, choices=POUSHESH_CHOICES[1:], null=True, blank=True)
+
+    tahsil_pedar = models.CharField("تحصیلات پدر", max_length=1, choices=TAHSIL_CHOICES[1:], null=True, blank=True)
+    shoql_pedar = models.CharField("شغل پدر", max_length=1, choices=SHOQLE_VAALEDEIN_CHOICES[1:], null=True, blank=True)
+    tahsil_maadar = models.CharField("تحصیلات مادر", max_length=1, choices=TAHSIL_CHOICES[1:], null=True, blank=True)
+    shoql_maadar = models.CharField("شغل مادر", max_length=1, choices=SHOQLE_VAALEDEIN_CHOICES[1:], null=True, blank=True)
+    kharide_khodro_pedari = models.CharField("توانایی خرید خودرو در خانواده پدری", max_length=1, choices=KHARIDE_KHODRO_CHOICES[1:], null=True, blank=True)
+    
+    tozihaat = models.TextField("دیگر توضیحات", null=True, blank=True)
+    
+
+    def __str__(self):
+        return self.user.username
+
+    class Meta:
+        db_table = "khosousiaat"
+        managed = True
+        verbose_name = "خصوصیات کاربر"
+        verbose_name_plural = "خصوصیات کاربران"
+
+
+
+class Entezaaraat(models.Model):
+    user = models.OneToOneField(User, verbose_name="کاربر", on_delete=models.CASCADE)
+    
+    tavallod_from = models.CharField("سال تولد از", max_length=4, choices=TAVALLOD_CHOICES, null=True, blank=True)
+    tavallod_to = models.CharField("سال تولد تا", max_length=4, choices=TAVALLOD_CHOICES, null=True, blank=True)
+    qad_from = models.CharField("قد از", max_length=3, choices=QAD_CHOICES, null=True, blank=True)
+    qad_to = models.CharField("قد تا", max_length=3, choices=QAD_CHOICES, null=True, blank=True)
+    vazn_from = models.CharField("وزن از", max_length=3, choices=VAZN_CHOICES, null=True, blank=True)
+    vazn_to = models.CharField("وزن تا", max_length=3, choices=VAZN_CHOICES, null=True, blank=True)
+    tahsil = models.CharField("تحصیلات", max_length=1, choices=TAHSIL_CHOICES, null=True, blank=True)
+    rang = models.CharField("رنگ پوست", max_length=1, choices=RANG_CHOICES, null=True, blank=True)
+    zibaayi = models.CharField("میزان زیبایی", max_length=1, choices=ZIBAAYI_CHOICES, null=True, blank=True)
+    qowmiat = models.CharField("قومیت", max_length=1, choices=QOWMIAT_CHOICES, null=True, blank=True)
+    shoql = models.CharField("وضعیت اشتغال", max_length=1, choices=SHOQL_CHOICES, null=True, blank=True)
+    ostaane_tavallod = models.CharField("استان محل تولد", max_length=2, choices=OSTAANHAA_CHOICES, null=True, blank=True)
+    ostaane_sokounat = models.CharField("استان محل سکونت", max_length=2, choices=OSTAANHAA_CHOICES, null=True, blank=True)
+    shahre_sokounat = models.CharField("شهر محل سکونت", max_length=150, null=True, blank=True)
+
+    ezdevaaj = models.CharField("سابقه ازدواج", max_length=1, choices=EZDEVAAJ_CHOICES, null=True, blank=True)
+    kharide_khodro = models.CharField("توانایی خرید خودرو", max_length=1, choices=KHARIDE_KHODRO_CHOICES, null=True, blank=True)
+    ehsaasaat = models.CharField("وضعیت احساسی", max_length=1, choices=EHSAASAAT_CHOICES, null=True, blank=True)
+    ertebaataat = models.CharField("راتباطات اجتماعی", max_length=1, choices=ERTEBAATAAT_CHOICES, null=True, blank=True)
+    jensi = models.CharField("امور جنسی", max_length=1, choices=JENSI_CHOICES, null=True, blank=True)
+    khaanevaadegi = models.CharField("امور خانوادگی", max_length=1, choices=KHAANEVAADEGI_CHOICES, null=True, blank=True)
+    salaamat = models.CharField("سلامت جسمی و روانی", max_length=1, choices=SALAAMAT_CHOICES, null=True, blank=True)
+
+    din = models.CharField("دین یا مذهب", max_length=1, choices=DIN_CHOICES, null=True, blank=True)
+    eteqaadaat = models.CharField("اعتقادات مذهبی", max_length=1, choices=ETEQAADAAT_CHOICES, null=True, blank=True)
+    amal_be_ahkaam = models.CharField("میزان عمل به احکام دینی", max_length=1, choices=AMAL_BE_AHKAAM_CHOICES, null=True, blank=True)
+    talabeh = models.CharField("طلبه", max_length=1, choices=TALABEH_CHOICES, null=True, blank=True)
+    seyyed = models.CharField("سید", max_length=1, choices=SEYYED_CHOICES, null=True, blank=True)
+    shekrat_dar_maraasemaat = models.CharField("شرکت در مراسم مذهبی و اجتماعی", max_length=1, choices=SHERKAT_DAR_MARAASEMAAT_CHOICES, null=True, blank=True)
+    pushesh = models.CharField("پوشش و لباس", max_length=1, choices=POUSHESH_CHOICES, null=True, blank=True)
+
+    tahsil_pedar = models.CharField("تحصیلات پدر", max_length=1, choices=TAHSIL_CHOICES, null=True, blank=True)
+    shoql_pedar = models.CharField("شغل پدر", max_length=1, choices=SHOQLE_VAALEDEIN_CHOICES, null=True, blank=True)
+    tahsil_maadar = models.CharField("تحصیلات مادر", max_length=1, choices=TAHSIL_CHOICES, null=True, blank=True)
+    shoql_maadar = models.CharField("شغل مادر", max_length=1, choices=SHOQLE_VAALEDEIN_CHOICES, null=True, blank=True)
+    kharide_khodro_pedari = models.CharField("توانایی خرید خودرو در خانواده پدری", max_length=1, choices=KHARIDE_KHODRO_CHOICES[1:], null=True, blank=True)
+    
+    tozihaat = models.TextField("دیگر توضیحات", null=True, blank=True)
+    
+    def __str__(self):
+        return self.user.username
+
+    def tavallod_range(self):
+        return [str(tavallod) for tavallod in range(int(self.tavallod_from), int(self.tavallod_to))]
+    
+    def qad_range(self):
+        return [str(qad) for qad in range(int(self.qad_from), int(self.qad_to))]
+    
+    def vazn_range(self):
+        return [str(vazn) for vazn in range(int(self.vazn_from), int(self.vazn_to))]
+
+
+    class Meta:
+        db_table = "entezaaraat"
+        managed = True
+        verbose_name = "انتظارات کاربر"
+        verbose_name_plural = "انتظارات کاربران"
