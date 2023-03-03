@@ -448,3 +448,30 @@ def relation_request_view(request, sender, reciver, action):
     
     return redirect('account:user_detail', pk=user2_id)
 
+
+def sending_requests_view(request):
+    template_name = "account/sending_requests.html"
+    template_title = "مشاهده درخواست های ارسالی"
+
+    relations = Relation.objects.filter(sender=request.user)
+
+    context = {
+        'template_title': template_title,
+        'relations': relations
+    }
+
+    return render(request, template_name, context)
+
+
+def reciving_requests_view(request):
+    template_name = "account/reciving_requests.html"
+    template_title = "مشاهده درخواست های دریافتی"
+
+    relations = Relation.objects.filter(reciver=request.user)
+
+    context = {
+        'template_title': template_title,
+        'relations': relations
+    }
+
+    return render(request, template_name, context)

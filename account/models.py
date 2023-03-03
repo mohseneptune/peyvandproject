@@ -190,8 +190,8 @@ class Entezaaraat(models.Model):
 
 
 class Relation(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sender")
-    reciver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reciver")
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sender", verbose_name='فرستنده')
+    reciver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reciver", verbose_name='گیرنده')
     status = models.CharField(max_length=1, choices=RELATION_CHOICES)
     created_at = models.DateTimeField("تاریخ ثبت درخواست", auto_now_add=True)
     updated_at = models.DateTimeField("تاریخ ویرایش", auto_now=True)

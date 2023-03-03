@@ -1,0 +1,18 @@
+{% extends "dashboard.html" %}
+
+{% block title %}{{ template_title }}{% endblock title %}
+
+{% block profile_content %}
+
+<div class="list-group">
+  {% for relation in relations %}
+  <a href="{% url 'account:user_detail' pk=relation.sender.pk %}" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ relation.sender.first_name }} {{ relation.sender.last_name }}</h5>
+      <small class="text-muted">{{ relation.updated_at }}</small>
+    </div>
+    <p class="mb-1">{{ relation.get_status_display }}</p>
+  </a>
+  {% endfor %}
+</div>
+{% endblock profile_content %}

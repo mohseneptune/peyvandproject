@@ -14,6 +14,8 @@ from account.views import (
     partner_search_view,
     user_detail_view,
     relation_request_view,
+    sending_requests_view,
+    reciving_requests_view,
 )
 
 
@@ -34,4 +36,6 @@ urlpatterns = [
     path("account/partner_search/", partner_search_view, name="partner_search"),
     path("account/user_detail/<int:pk>/", user_detail_view, name="user_detail"),
     path("rr/<int:sender>/<int:reciver>/<str:action>/", relation_request_view, name="rr"),
+    path("account/sending_requests/", sending_requests_view, name="sending_requests"),
+    path("account/reciving_requests/", reciving_requests_view, name="reciving_requests"),
 ]
