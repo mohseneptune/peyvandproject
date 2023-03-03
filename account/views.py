@@ -1,11 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, login, get_user_model
-from account.forms import RegisterForm, OTPForm, LoginForm, PhoneChangeForm, ProfileChangeForm, KhosousiaatFrom, EntezaaraatFrom, PartnerSearchForm
+from account.forms import (
+    RegisterForm,
+    OTPForm,
+    LoginForm,
+    PhoneChangeForm,
+    ProfileChangeForm,
+    KhosousiaatFrom,
+    EntezaaraatFrom,
+    PartnerSearchForm,
+)
 from random import randint
 from core.otp import send_opt
 from django.contrib import messages
-from account.models import Khosousiaat, Entezaaraat
-from django.forms.models import model_to_dict
+from account.models import Khosousiaat, Entezaaraat, Relation
+from django.db.models import Q
 
 
 User = get_user_model()
@@ -25,7 +34,7 @@ def register_view(request):
             request.session["register_form_data"] = register_form_data
             request.session["otp"] = otp
             send_opt(register_form_data["phone"], otp)
-            
+
             return redirect("account:register_verify")
 
     context = {
@@ -70,7 +79,7 @@ def register_verify_view(request):
         "form": form,
         "form_error": form_error,
         "phone": phone,
-        "otp": otp
+        "otp": otp,
     }
 
     return render(request, template_name, context)
@@ -133,7 +142,7 @@ def login_verify_view(request):
         "form": form,
         "form_error": form_error,
         "phone": phone,
-        "otp": otp
+        "otp": otp,
     }
     return render(request, template_name, context)
 
@@ -157,7 +166,11 @@ def profile_view(request):
     except:
         entezaaraat = Entezaaraat.objects.create(user=request.user)
 
-    context = {"template_title": template_title, "khosousiaat": khosousiaat, "entezaaraat": entezaaraat}
+    context = {
+        "template_title": template_title,
+        "khosousiaat": khosousiaat,
+        "entezaaraat": entezaaraat,
+    }
     return render(request, template_name, context)
 
 
@@ -190,7 +203,7 @@ def phone_change_verify_view(request):
     template_name = "account/phone_change_verify.html"
     template_title = "تایید شماره موبایل"
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = OTPForm(request.POST)
         if form.is_valid():
             form_otp = form.cleaned_data["otp"]
@@ -202,7 +215,7 @@ def phone_change_verify_view(request):
                 user.phone = phone
                 user.save()
                 messages.success(request, "شماره موبایل شما با موفقیت ویراش شد")
-                return redirect('account:profile')
+                return redirect("account:profile")
             else:
                 messages.error(request, "کد وارد شده اشتباه است. دوباره تلاش کنید.")
 
@@ -219,19 +232,19 @@ def profile_change_view(request):
     template_name = "account/phone_change_verify.html"
     template_title = "تایید شماره موبایل"
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ProfileChangeForm(instance=request.user, data=request.POST)
 
         if form.is_valid():
             form.save()
             messages.success(request, "حساب کاربری شما با موفقیت ویرایش شد")
             return redirect("account:profile")
-        
+
         else:
             messages.error(request, "لطفا اطلاعات خود را بررسی و دوباره تلاش کنید.")
     else:
         form = ProfileChangeForm(instance=request.user)
-    
+
     context = {"template_title": template_title, "form": form}
     return render(request, template_name, context)
 
@@ -242,19 +255,19 @@ def khosousiaat_change_view(request):
 
     khosousiaat, created = Khosousiaat.objects.get_or_create(user=request.user)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = KhosousiaatFrom(instance=khosousiaat, data=request.POST)
 
         if form.is_valid():
             form.save()
             messages.success(request, "خصوصیات شما با موفقیت ویرایش شد")
             return redirect("account:profile")
-        
+
         else:
             messages.error(request, "لطفا اطلاعات خود را بررسی و دوباره تلاش کنید.")
     else:
         form = KhosousiaatFrom(instance=khosousiaat)
-    
+
     context = {"template_title": template_title, "form": form}
     return render(request, template_name, context)
 
@@ -265,19 +278,19 @@ def entezaaraat_change_view(request):
 
     entezaaraat, created = Entezaaraat.objects.get_or_create(user=request.user)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = EntezaaraatFrom(instance=entezaaraat, data=request.POST)
 
         if form.is_valid():
             form.save()
             messages.success(request, "انتظارات شما با موفقیت ویرایش شد")
             return redirect("account:profile")
-        
+
         else:
             messages.error(request, "لطفا اطلاعات خود را بررسی و دوباره تلاش کنید.")
     else:
         form = EntezaaraatFrom(instance=entezaaraat)
-    
+
     context = {"template_title": template_title, "form": form}
     return render(request, template_name, context)
 
@@ -297,14 +310,14 @@ def partner_search_view(request):
 
     # partners = partners.filter(tavallod__in=entezaaraat.tavallod_range())
     # partners = partners.filter(qad__in=entezaaraat.qad_range())
-    # partners = partners.filter(vazn__in=entezaaraat.vazn_range())    
+    # partners = partners.filter(vazn__in=entezaaraat.vazn_range())
 
     # if entezaaraat.zibaayi != '0' and entezaaraat.zibaayi != None:
     #     partners = partners.filter(zibaayi=entezaaraat.zibaayi)
 
     # if entezaaraat.ostaane_tavallod != '0' and entezaaraat.ostaane_tavallod != None:
     #     partners = partners.filter(ostaane_tavallod=entezaaraat.ostaane_tavallod)
-    
+
     # if entezaaraat.ostaane_sokounat != '0' and entezaaraat.ostaane_sokounat != None:
     #     partners = partners.filter(ostaane_sokounat=entezaaraat.ostaane_sokounat)
 
@@ -323,40 +336,115 @@ def partner_search_view(request):
     # if entezaaraat.salaamat != '0' and entezaaraat.salaamat != None:
     #     partners = partners.filter(salaamat=entezaaraat.salaamat)
 
-    if entezaaraat.tahsil != '0' and entezaaraat.tahsil != None:
+    if entezaaraat.tahsil != "0" and entezaaraat.tahsil != None:
         partners = partners.filter(tahsil=entezaaraat.tahsil)
-    
-    if entezaaraat.qowmiat != '0' and entezaaraat.qowmiat != None:
+
+    if entezaaraat.qowmiat != "0" and entezaaraat.qowmiat != None:
         partners = partners.filter(qowmiat=entezaaraat.qowmiat)
 
-    if entezaaraat.shoql != '0' and entezaaraat.shoql != None:
+    if entezaaraat.shoql != "0" and entezaaraat.shoql != None:
         partners = partners.filter(shoql=entezaaraat.shoql)
 
-    if entezaaraat.din != '0' and entezaaraat.din != None:
-        partners = partners.filter(din=entezaaraat.din)    
+    if entezaaraat.din != "0" and entezaaraat.din != None:
+        partners = partners.filter(din=entezaaraat.din)
 
-    context = {
-        'template_title': template_title,
-        'partners': partners
-    }
+    context = {"template_title": template_title, "partners": partners}
 
     return render(request, template_name, context)
 
+
+def get_relation_state(user1, user2):
+    """
+    0 -> no relation
+    
+    11 -> user1 has sent request to user2 and status = SENT
+    12 -> user1 has sent reqeust to user2 and status = ACCEPTED
+    13 -> user1 has sent request to user2 and status = REJECTED
+    
+    21 -> user2 has sent request to user1 and status = SENT
+    22 -> user2 has sent request to user1 and status = ACCEPTED
+    23 -> user2 has sent request to user1 and status = REJECTED
+    """
+    relation = Relation.objects.filter(
+        Q(sender=user1, reciver=user2) | Q(sender=user2, reciver=user1)
+    ).first()
+
+    if not relation:
+        return 0
+
+    if relation.sender == user1:
+        if relation.status == '1':
+            print('11')
+            return 11
+        if relation.status == '2':
+            return 12
+        if relation.status == '3':
+            return 13
+
+    elif relation.sender == user2:
+        if relation.status == '1':
+            return 21
+        if relation.status == '2':
+            return 22
+        if relation.status == '3':
+            return 23
 
 
 def user_detail_view(request, pk):
     template_name = "account/user_detail.html"
     template_title = "مشخصات کاربر"
 
-    detail = get_object_or_404(User, pk=pk)
-    khosousiaat = detail.khosousiaat
-    entezaaraat = detail.entezaaraat
+    user1 = request.user
+    user2 = get_object_or_404(User, pk=pk)
+
+    relation_state = get_relation_state(user1, user2)
+
+    print(relation_state)
+
+    if user1 == user2: return redirect('account:profile')
+
+    khosousiaat = user2.khosousiaat
+    entezaaraat = user2.entezaaraat
 
     context = {
-        'template_title': template_title,
-        'detail': detail,
-        'khosousiaat': khosousiaat,
-        'entezaaraat': entezaaraat,
+        "template_title": template_title,
+        "user2": user2,
+        "khosousiaat": khosousiaat,
+        "entezaaraat": entezaaraat,
+        "state": relation_state
     }
 
     return render(request, template_name, context)
+
+
+def relation_request_view(request, sender, reciver, action):
+    
+    sender = get_object_or_404(User, pk=sender)
+    reciver = get_object_or_404(User, pk=reciver)
+    user2_id = request.GET.get('user2_id')
+    
+    if action == 'create':
+        new_relation = Relation(sender=sender, reciver=reciver, status=1)
+        new_relation.save()
+
+    elif action == 'delete':
+        relation = Relation.objects.filter(sender=sender, reciver=reciver).first()
+        relation.delete()
+
+    elif action == 'accept':
+        relation = Relation.objects.filter(sender=sender, reciver=reciver).first()
+        relation.status = 2
+        relation.save()
+
+    elif action == 'reject':
+        relation = Relation.objects.filter(sender=sender, reciver=reciver).first()
+        relation.status = 3
+        relation.save()
+
+    elif action == 'sent':
+        relation = Relation.objects.filter(sender=sender, reciver=reciver).first()
+        relation.status = 1
+        relation.save()
+    
+    return redirect('account:user_detail', pk=user2_id)
+

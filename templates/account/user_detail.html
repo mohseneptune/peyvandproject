@@ -5,31 +5,59 @@
 {% block title %}{{ template_title }}{% endblock title %}
 
 {% block profile_content %}
+
+{% if state == 0 %}
+<a class="btn btn-primary" href="{% url 'account:rr' sender=user.id reciver=user2.id action='create' %}?user2_id={{user2.id}}">فرستادن درخواست آشنایی</a>
+
+{% elif state == 11 %}
+<div>شما قبلا به این کاربر درخواست آشنایی فرستاده اید</div>
+<a class="btn btn-danger" href="{% url 'account:rr' sender=user.id reciver=user2.id action='delete' %}?user2_id={{user2.id}}">لغو درخواست آشنایی</a>
+
+{% elif state == 12 %}
+<div>درخواست شما قبول شده است</div>
+
+{% elif state == 13 %}
+<div>درخواست شما رد شده است</div>
+
+{% elif state == 21 %}
+<a class="btn btn-success" href="{% url 'account:rr' sender=user2.id reciver=user.id action='accept' %}?user2_id={{user2.id}}">قبول کردن درخواست آشنایی</a>
+<a class="btn btn-danger" href="{% url 'account:rr' sender=user2.id reciver=user.id action='reject' %}?user2_id={{user2.id}}">رد کردن درخواست آشنایی</a>
+
+{% elif state == 22 %}
+<div>شما درخواست آشنایی را قبول کرده اید.</div>
+
+{% elif state == 23 %}
+<div>شما درخواست آشنایی را رد کرده اید</div>
+<a class="btn btn-primary" href="{% url 'account:rr' sender=user2.id reciver=user.id action='sent' %}?user2_id={{user2.id}}">لغو در کردن درخواست</a>
+{% endif %}
+
+<hr>
+
 <h4>حساب کاربری</h4>
 <table class="table table-striped table-responsive">
   <tr>
-    <th>{% get_verbose detail "phone" %}</th>
-    <td>{{ detail.phone }}</td>
+    <th>{% get_verbose user2 "phone" %}</th>
+    <td>{{ user2.phone }}</td>
   </tr>
   <tr>
-    <th>{% get_verbose detail "first_name" %}</th>
-    <td>{{ detail.first_name }}</td>
+    <th>{% get_verbose user2 "first_name" %}</th>
+    <td>{{ user2.first_name }}</td>
   </tr>
   <tr>
-    <th>{% get_verbose detail "last_name" %}</th>
-    <td>{{ detail.last_name }}</td>
+    <th>{% get_verbose user2 "last_name" %}</th>
+    <td>{{ user2.last_name }}</td>
   </tr>
   <tr>
-    <th>{% get_verbose detail "gender" %}</th>
-    <td>{{ detail.get_gender_display }}</td>
+    <th>{% get_verbose user2 "gender" %}</th>
+    <td>{{ user2.get_gender_display }}</td>
   </tr>
   <tr>
-    <th>{% get_verbose detail "register_for" %}</th>
-    <td>{{ detail.get_register_for_display }}</td>
+    <th>{% get_verbose user2 "register_for" %}</th>
+    <td>{{ user2.get_register_for_display }}</td>
   </tr>
   <tr>
-    <th>{% get_verbose detail "joined_date" %}</th>
-    <td>{{ detail.joined_date|date:"H:i -- Y-m-d" }}</td>
+    <th>{% get_verbose user2 "joined_date" %}</th>
+    <td>{{ user2.joined_date|date:"H:i -- Y-m-d" }}</td>
   </tr>
 </table>
 
@@ -46,7 +74,7 @@
   <tr>
     <th>{% get_verbose khosousiaat "vazn" %}</th>
     <td>{{ khosousiaat.vazn }}</td>
-  </tr>  
+  </tr>
   <tr>
     <th>{% get_verbose khosousiaat "tahsil" %}</th>
     <td>{{ khosousiaat.get_tahsil_display }}</td>
@@ -116,7 +144,7 @@
     <td>{{ khosousiaat.get_amal_be_ahkaam_display }}</td>
   </tr>
   <tr>
-    <th>{% get_verbose khosousiaat "talabeh" %}</th>   
+    <th>{% get_verbose khosousiaat "talabeh" %}</th>
     <td>{% if khosousiaat.tabaleh %}هستم{% else %}نیستم{% endif %}</td>
   </tr>
   <tr>
@@ -178,11 +206,11 @@
   <tr>
     <th>{% get_verbose entezaaraat "vazn_from" %}</th>
     <td>{{ entezaaraat.vazn_from }}</td>
-  </tr>  
+  </tr>
   <tr>
     <th>{% get_verbose entezaaraat "vazn_to" %}</th>
     <td>{{ entezaaraat.vazn_to }}</td>
-  </tr> 
+  </tr>
   <tr>
     <th>{% get_verbose entezaaraat "tahsil" %}</th>
     <td>{{ entezaaraat.get_tahsil_display }}</td>
@@ -252,7 +280,7 @@
     <td>{{ entezaaraat.get_amal_be_ahkaam_display }}</td>
   </tr>
   <tr>
-    <th>{% get_verbose entezaaraat "talabeh" %}</th>   
+    <th>{% get_verbose entezaaraat "talabeh" %}</th>
     <td>{{ entezaaraat.get_talabeh_display }}</td>
   </tr>
   <tr>

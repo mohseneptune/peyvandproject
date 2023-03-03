@@ -13,6 +13,7 @@ from account.views import (
     entezaaraat_change_view,
     partner_search_view,
     user_detail_view,
+    relation_request_view,
 )
 
 
@@ -32,4 +33,5 @@ urlpatterns = [
     path("account/entezaaraat_change/", entezaaraat_change_view, name="entezaaraat_change"),
     path("account/partner_search/", partner_search_view, name="partner_search"),
     path("account/user_detail/<int:pk>/", user_detail_view, name="user_detail"),
+    path("rr/<int:sender>/<int:reciver>/<str:action>/", relation_request_view, name="rr"),
 ]

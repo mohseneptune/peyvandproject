@@ -186,3 +186,21 @@ class Entezaaraat(models.Model):
         managed = True
         verbose_name = "انتظارات کاربر"
         verbose_name_plural = "انتظارات کاربران"
+
+
+
+class Relation(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sender")
+    reciver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reciver")
+    status = models.CharField(max_length=1, choices=RELATION_CHOICES)
+    created_at = models.DateTimeField("تاریخ ثبت درخواست", auto_now_add=True)
+    updated_at = models.DateTimeField("تاریخ ویرایش", auto_now=True)
+
+    def __str__(self):
+        return self.status
+
+    class Meta:
+        db_table = 'relations'
+        managed = True
+        verbose_name = 'رابطه'
+        verbose_name_plural = 'رابطه ها'
