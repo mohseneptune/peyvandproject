@@ -1,0 +1,40 @@
+{% extends "myadmin.html" %}
+{% load static %}
+{% load myadmin_tags %}
+
+{% block title %}{{ template_title }}{% endblock title %}
+
+{% block dashboard_content %}
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">فرستنده</th>
+      <th scope="col">گیرنده</th>
+      <th scope="col">تاریخ</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for relation in relations %}
+    <tr>
+
+      <th scope="row">1</th>
+      <td>
+        <a href="{% url 'myadmin:user_detail' pk=relation.sender.pk %}">
+          {{ relation.sender.first_name }} {{ relation.sender.last_name }}
+        </a>
+      </td>
+
+      <td>
+        <a href="{% url 'myadmin:user_detail' pk=relation.reciver.pk %}">
+          {{ relation.reciver.first_name }} {{ relation.reciver.last_name }}
+        </a>
+      </td>
+      
+      <td>{{ relation.updated_at }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock dashboard_content %}

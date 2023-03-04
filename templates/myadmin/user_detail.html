@@ -1,0 +1,296 @@
+{% extends "myadmin.html" %}
+{% load static %}
+{% load myadmin_tags %}
+
+{% block title %}{{ template_title }}{% endblock title %}
+
+{% block dashboard_content %}
+<h4>حساب کاربری</h4>
+<table class="table table-striped table-responsive">
+  <tr>
+    <th>{% get_verbose account "phone" %}</th>
+    <td>{{ account.phone }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose account "first_name" %}</th>
+    <td>{{ account.first_name }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose account "last_name" %}</th>
+    <td>{{ account.last_name }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose account "gender" %}</th>
+    <td>{{ account.get_gender_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose account "register_for" %}</th>
+    <td>{{ account.get_register_for_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose account "joined_date" %}</th>
+    <td>{{ account.joined_date|date:"H:i -- Y-m-d" }}</td>
+  </tr>
+</table>
+
+<h4 class="mt-5">خصوصیات کاربر</h4>
+<table class="table table-striped table-responsive">
+  <tr>
+    <th>{% get_verbose khosousiaat "tavallod" %}</th>
+    <td>{{ khosousiaat.tavallod }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "qad" %}</th>
+    <td>{{ khosousiaat.qad }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "vazn" %}</th>
+    <td>{{ khosousiaat.vazn }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "tahsil" %}</th>
+    <td>{{ khosousiaat.get_tahsil_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "rang" %}</th>
+    <td>{{ khosousiaat.get_rang_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "zibaayi" %}</th>
+    <td>{{ khosousiaat.get_zibaayi_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "qowmiat" %}</th>
+    <td>{{ khosousiaat.get_qowmiat_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "shoql" %}</th>
+    <td>{{ khosousiaat.get_shoql_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "ostaane_tavallod" %}</th>
+    <td>{{ khosousiaat.get_ostaane_tavallod_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "ostaane_sokounat" %}</th>
+    <td>{{ khosousiaat.get_ostaane_sokounat_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "shahre_sokounat" %}</th>
+    <td>{{ khosousiaat.shahre_sokounat }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "ezdevaaj" %}</th>
+    <td>{{ khosousiaat.get_ezdevaaj_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "kharide_khodro" %}</th>
+    <td>{{ khosousiaat.get_kharide_khodro_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "ehsaasaat" %}</th>
+    <td>{{ khosousiaat.get_ehsaasaat_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "ertebaataat" %}</th>
+    <td>{{ khosousiaat.get_ertebaataat_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "jensi" %}</th>
+    <td>{{ khosousiaat.get_jensi_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "khaanevaadegi" %}</th>
+    <td>{{ khosousiaat.get_khaanevaadegi_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "salaamat" %}</th>
+    <td>{{ khosousiaat.get_salaamat_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "din" %}</th>
+    <td>{{ khosousiaat.get_din_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "amal_be_ahkaam" %}</th>
+    <td>{{ khosousiaat.get_amal_be_ahkaam_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "talabeh" %}</th>
+    <td>{% if khosousiaat.tabaleh %}هستم{% else %}نیستم{% endif %}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "seyyed" %}</th>
+    <td>{% if khosousiaat.seyyed %}هستم{% else %}نیستم{% endif %}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "shekrat_dar_maraasemaat" %}</th>
+    <td>{{ khosousiaat.get_shekrat_dar_maraasemaat_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "pushesh" %}</th>
+    <td>{{ khosousiaat.get_pushesh_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "tahsil_pedar" %}</th>
+    <td>{{ khosousiaat.get_tahsil_pedar_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "shoql_pedar" %}</th>
+    <td>{{ khosousiaat.get_shoql_pedar_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "tahsil_maadar" %}</th>
+    <td>{{ khosousiaat.get_tahsil_maadar_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "shoql_maadar" %}</th>
+    <td>{{ khosousiaat.get_shoql_maadar_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "kharide_khodro_pedari" %}</th>
+    <td>{{ khosousiaat.get_kharide_khodro_pedari_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose khosousiaat "tozihaat" %}</th>
+    <td>{{ khosousiaat.tozihaat }}</td>
+  </tr>
+</table>
+
+<h4 class="mt-5">انتظارات کاربر</h4>
+<table class="table table-striped table-responsive">
+  <tr>
+    <th>{% get_verbose entezaaraat "tavallod_from" %}</th>
+    <td>{{ entezaaraat.tavallod_from }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "tavallod_to" %}</th>
+    <td>{{ entezaaraat.tavallod_to }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "qad_from" %}</th>
+    <td>{{ entezaaraat.qad_from }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "qad_to" %}</th>
+    <td>{{ entezaaraat.qad_to }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "vazn_from" %}</th>
+    <td>{{ entezaaraat.vazn_from }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "vazn_to" %}</th>
+    <td>{{ entezaaraat.vazn_to }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "tahsil" %}</th>
+    <td>{{ entezaaraat.get_tahsil_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "rang" %}</th>
+    <td>{{ entezaaraat.get_rang_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "zibaayi" %}</th>
+    <td>{{ entezaaraat.get_zibaayi_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "qowmiat" %}</th>
+    <td>{{ entezaaraat.get_qowmiat_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "shoql" %}</th>
+    <td>{{ entezaaraat.get_shoql_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "ostaane_tavallod" %}</th>
+    <td>{{ entezaaraat.get_ostaane_tavallod_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "ostaane_sokounat" %}</th>
+    <td>{{ entezaaraat.get_ostaane_sokounat_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "shahre_sokounat" %}</th>
+    <td>{{ entezaaraat.shahre_sokounat }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "ezdevaaj" %}</th>
+    <td>{{ entezaaraat.get_ezdevaaj_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "kharide_khodro" %}</th>
+    <td>{{ entezaaraat.get_kharide_khodro_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "ehsaasaat" %}</th>
+    <td>{{ entezaaraat.get_ehsaasaat_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "ertebaataat" %}</th>
+    <td>{{ entezaaraat.get_ertebaataat_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "jensi" %}</th>
+    <td>{{ entezaaraat.get_jensi_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "khaanevaadegi" %}</th>
+    <td>{{ entezaaraat.get_khaanevaadegi_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "salaamat" %}</th>
+    <td>{{ entezaaraat.get_salaamat_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "din" %}</th>
+    <td>{{ entezaaraat.get_din_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "amal_be_ahkaam" %}</th>
+    <td>{{ entezaaraat.get_amal_be_ahkaam_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "talabeh" %}</th>
+    <td>{{ entezaaraat.get_talabeh_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "seyyed" %}</th>
+    <td>{{ entezaaraat.get_seyyed_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "shekrat_dar_maraasemaat" %}</th>
+    <td>{{ entezaaraat.get_shekrat_dar_maraasemaat_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "pushesh" %}</th>
+    <td>{{ entezaaraat.get_pushesh_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "tahsil_pedar" %}</th>
+    <td>{{ entezaaraat.get_tahsil_pedar_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "shoql_pedar" %}</th>
+    <td>{{ entezaaraat.get_shoql_pedar_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "tahsil_maadar" %}</th>
+    <td>{{ entezaaraat.get_tahsil_maadar_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "shoql_maadar" %}</th>
+    <td>{{ entezaaraat.get_shoql_maadar_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "kharide_khodro_pedari" %}</th>
+    <td>{{ entezaaraat.get_kharide_khodro_pedari_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose entezaaraat "tozihaat" %}</th>
+    <td>{{ entezaaraat.tozihaat }}</td>
+  </tr>
+</table>
+
+{% endblock dashboard_content %}

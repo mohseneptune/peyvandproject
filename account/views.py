@@ -133,6 +133,9 @@ def login_verify_view(request):
                 login(request, user, "core.backends.PasswordlessAuthBackend")
                 request.session.pop("phone")
                 request.session.pop("otp")
+                if user.is_superuser:
+                    return redirect('myadmin:dashboard')
+
                 return redirect("account:profile")
             else:
                 form_error = "کد وارد شده اشتباه است"
@@ -155,6 +158,9 @@ def logout_view(request):
 def profile_view(request):
     template_name = "account/profile.html"
     template_title = "حساب کاربری"
+
+    if request.user.is_superuser or request.user.is_staff or request.user.is_admin:
+        return redirect('myadmin:dashboard')
 
     try:
         khosousiaat = request.user.khosousiaat

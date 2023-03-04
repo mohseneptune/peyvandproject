@@ -1,0 +1,40 @@
+{% extends "myadmin.html" %}
+{% load static %}
+{% load myadmin_tags %}
+
+{% block title %}{{ template_title }}{% endblock title %}
+
+{% block dashboard_content %}
+
+<h4>حساب کاربری</h4>
+
+<h4>{{ user.get_role }}</h4>
+
+<table class="table table-striped table-responsive">
+  <tr>
+    <th>{% get_verbose user "phone" %}</th>
+    <td>{{ user.phone }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose user "first_name" %}</th>
+    <td>{{ user.first_name }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose user "last_name" %}</th>
+    <td>{{ user.last_name }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose user "gender" %}</th>
+    <td>{{ user.get_gender_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose user "register_for" %}</th>
+    <td>{{ user.get_register_for_display }}</td>
+  </tr>
+  <tr>
+    <th>{% get_verbose user "joined_date" %}</th>
+    <td>{{ user.joined_date|date:"H:i -- Y-m-d" }}</td>
+  </tr>
+</table>
+
+{% endblock dashboard_content %}

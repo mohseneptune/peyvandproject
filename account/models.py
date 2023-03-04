@@ -57,7 +57,7 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "phone"
 
     def __str__(self):
-        return self.phone
+        return f'{self.first_name} {self.last_name}'
 
     # For checking permissions. to keep it simple all admin have ALL permissons
     def has_perm(self, perm, obj=None):
@@ -66,6 +66,16 @@ class User(AbstractBaseUser):
     # Does this user have permission to view this app? (ALWAYS YES FOR SIMPLICITY)
     def has_module_perms(self, app_label):
         return True
+    
+    def get_role(self):
+        if self.is_superuser:
+            return 'ادمین'
+        if self.is_admin:
+            return 'رابط'
+        if self.is_staff:
+            return 'کارشناس'
+        return 'user'
+
 
     class Meta:
         db_table = "users"
